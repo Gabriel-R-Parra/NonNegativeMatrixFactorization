@@ -1,0 +1,25 @@
+services:
+  jupyter:
+    build:
+      context: .
+    ports:
+      - 8888:8888
+    volumes:
+      - ./materials:/materials
+    command: jupyter lab --ip=0.0.0.0 --no-browser --allow-root --NotebookApp.token=''
+  marp:
+    image: marpteam/marp-cli
+    container_name: marp-cli
+    working_dir: /home/marp/app
+    environment:
+      - LANG=${LANG:-en_US.UTF-8}
+    ports:
+      - 8080:8080
+      - 37717:37717
+    volumes:
+      - ./materials:/home/marp/app
+    command: -s /home/marp/app
+
+volumes:
+  materials:
+    name: "materials"
